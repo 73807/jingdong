@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form_test</title>
+    <style type="text/css">.ret{color: red;}</style>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function (){
+            $("input[name='name']").blur(function () {
+                $(this).next(".ret").remove();
+                var reg=/^\d{5,15}$/
+                if(!reg.test($(this).val())){
+                    var $erro=$("<span class='ret' >不符合要求</span>")
+                    $(this).after($erro);
+                }
+            })
+            $("input[name='pass']").blur(function () {
+                $(this).next(".ret").remove();
+                var $reg=/^\w{5,15}$/
+                if(!$reg.test($(this).val())){
+                    var $ret=$("<apan class='ret'>密码不正确</apan>");
+                    $(this).after($ret);
+                }
+            });
+            // $("input[name='email']").blur(function () {
+            //     $(this).next(".ret").remove();
+            //     var reg=/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+            //     if(!reg.test($(this).val())){
+            //         var $ret=$("<apan class='ret'>邮箱不正确</apan>")
+            //         $(this).after($ret)
+            //     }
+            // });
+            // $("input[name='sumb']").click(function () {
+            //     $("input[name='name']").trigger("blur");
+            //     $("input[name='pass']").trigger("blur");
+            //     // $("input[name='email']").trigger("blur");
+            //     if($("span.ret").length==0)
+            //     {
+            //         $("form").submit();
+            //         alert("提交成功");
+            //     }
+            // })
+            $("input[type='button']").click(function () {
+                $.ajax({
+                    url:"http://localhost:8080/get",
+                    type:"post",
+                    data:{
+                        'username':$("input[name='name']").val(),
+                        'password':$("input[name='pass']").val()
+                    },
+                    dataType:"text",
+                    success:function (data) {
+                        alert(data)
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+<form >
+    姓名：<input type="text" name="name" ><br>
+    密码：<input type="password" name="pass"><br>
+    <!--        邮箱：<input type="email" name="email"><br>-->
+    <input type="button" name="sumb" value="提交">
+
+</form>
+
+</body>
+</html>
